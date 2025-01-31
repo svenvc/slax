@@ -19,4 +19,12 @@ defmodule Slax.Chat do
     |> Room.changeset(attrs)
     |> Repo.update()
   end
+
+  def get_room!(id) do
+    Repo.get!(Room, id)
+  end
+
+  def change_room(room, attrs \\ %{}) do
+    Room.changeset(room, attrs)
+  end
 end
