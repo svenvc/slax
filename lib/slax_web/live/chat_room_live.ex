@@ -126,7 +126,7 @@ defmodule SlaxWeb.ChatRoomLive do
           timezone={@timezone}
         />
       </div>
-      <div class="h-12 bg-white px-4 pb-4">
+      <div :if={@joined?} class="h-12 bg-white px-4 pb-4">
         <.form
           id="new-message-form"
           for={@new_message_form}
@@ -268,6 +268,7 @@ defmodule SlaxWeb.ChatRoomLive do
   end
 
   def mount(_params, _session, socket) do
+    # rooms = Chat.list_joined_rooms(socket.assigns.current_user)
     rooms = Chat.list_rooms()
     users = Accounts.list_users()
 
@@ -309,6 +310,7 @@ defmodule SlaxWeb.ChatRoomLive do
      socket
      |> assign(
        hide_topic?: false,
+       joined?: Chat.joined?(room, socket.assigns.current_user),
        page_title: "#" <> room.name,
        room: room
      )
@@ -335,12 +337,16 @@ defmodule SlaxWeb.ChatRoomLive do
     %{current_user: current_user, room: room} = socket.assigns
 
     socket =
-      case Chat.create_message(room, message_params, current_user) do
-        {:ok, _message} ->
-          assign_message_form(socket, Chat.change_message(%Message{}))
+      if Chat.joined?(room, current_user) do
+        case Chat.create_message(room, message_params, current_user) do
+          {:ok, _message} ->
+            assign_message_form(socket, Chat.change_message(%Message{}))
 
-        {:error, changeset} ->
-          assign_message_form(socket, changeset)
+          {:error, changeset} ->
+            assign_message_form(socket, changeset)
+        end
+      else
+        socket
       end
 
     {:noreply, socket}
