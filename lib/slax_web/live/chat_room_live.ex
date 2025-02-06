@@ -8,8 +8,6 @@ defmodule SlaxWeb.ChatRoomLive do
   alias Slax.Chat.{Room, Message}
   alias SlaxWeb.OnlineUsers
 
-  import SlaxWeb.RoomComponents
-
   def render(assigns) do
     ~H"""
     <div class="flex flex-col shrink-0 w-64 bg-slate-100">
