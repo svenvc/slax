@@ -73,7 +73,7 @@ defmodule SlaxWeb.Router do
   scope "/", SlaxWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    get "/home", PageController, :home
+    live "/home", PageLive, :home
   end
 
   scope "/", SlaxWeb do
