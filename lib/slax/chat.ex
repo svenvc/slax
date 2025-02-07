@@ -89,6 +89,13 @@ defmodule Slax.Chat do
     Phoenix.PubSub.broadcast!(@pubsub, topic(message.room_id), {:message_deleted, message})
   end
 
+  def get_message!(id) do
+    Message
+    |> where([m], m.id == ^id)
+    |> preload(:user)
+    |> Repo.one!()
+  end
+
   def subscribe_to_room(room) do
     Phoenix.PubSub.subscribe(@pubsub, topic(room.id))
   end
