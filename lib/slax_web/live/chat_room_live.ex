@@ -415,7 +415,6 @@ defmodule SlaxWeb.ChatRoomLive do
 
     socket
     |> assign(
-      thread: messages |> Enum.filter(&is_struct(&1, Message)) |> List.last(),
       hide_topic?: false,
       joined?: Chat.joined?(room, socket.assigns.current_user),
       page_title: "#" <> room.name,
