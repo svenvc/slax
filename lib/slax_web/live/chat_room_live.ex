@@ -105,16 +105,16 @@ defmodule SlaxWeb.ChatRoomLive do
         </div>
         <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
           <li class="text-[0.8125rem] leading-6 text-zinc-900">
-          <div class="text-sm leading-10">
-            <.link
-              class="flex gap-4 items-center"
-              phx-click="show-profile"
-              phx-value-user-id={@current_user.id}
-            >
-              <.user_avatar user={@current_user} class="h-8 w-8 rounded" />
-              <span class="hover:underline">{@current_user.username}</span>
-            </.link>
-        </div>
+            <div class="text-sm leading-10">
+              <.link
+                class="flex gap-4 items-center"
+                phx-click="show-profile"
+                phx-value-user-id={@current_user.id}
+              >
+                <.user_avatar user={@current_user} class="h-8 w-8 rounded" />
+                <span class="hover:underline">{@current_user.username}</span>
+              </.link>
+            </div>
           </li>
           <li>
             <.link
@@ -219,7 +219,12 @@ defmodule SlaxWeb.ChatRoomLive do
     </div>
 
     <%= if assigns[:profile] do %>
-      <.live_component id="profile" module={SlaxWeb.ChatRoomLive.ProfileComponent} user={@profile} />
+      <.live_component
+        id="profile"
+        module={SlaxWeb.ChatRoomLive.ProfileComponent}
+        user={@profile}
+        current_user={@current_user}
+      />
     <% end %>
 
     <.modal
@@ -473,7 +478,7 @@ defmodule SlaxWeb.ChatRoomLive do
       |> DateTime.shift_zone!(timezone)
       |> DateTime.to_date()
     end)
-    |> Enum.sort_by(fn {date, _msgs} -> date end, fn (x,y) -> Date.compare(x, y) != :gt end)
+    |> Enum.sort_by(fn {date, _msgs} -> date end, fn x, y -> Date.compare(x, y) != :gt end)
     |> Enum.flat_map(fn {date, messages} -> [date | messages] end)
   end
 

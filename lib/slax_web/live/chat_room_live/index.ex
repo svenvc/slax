@@ -12,7 +12,7 @@ defmodule SlaxWeb.ChatRoomLive.Index do
           phx-click={show_modal("new-room-modal")}
           class="bg-white font-semibold py-2 px-4 border border-slate-400 rounded shadow-sm"
         >
-        Create room
+          Create room
         </button>
       </div>
       <div class="bg-slate-50 border rounded">
