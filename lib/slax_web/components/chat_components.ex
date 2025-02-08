@@ -97,6 +97,6 @@ defmodule SlaxWeb.ChatComponents do
   defp message_timestamp(message, timezone) do
     message.inserted_at
     |> Timex.Timezone.convert(timezone)
-    |> Timex.format!("%-l:%M %p", :strftime)
+    |> Timex.format!("%-k:%M", :strftime)
   end
 end
